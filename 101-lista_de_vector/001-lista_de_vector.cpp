@@ -8,6 +8,14 @@ private:
     float v1, v2, v3, v4;
 
 public:
+    // constructor con ceros
+    vec4()
+    {
+        v1 = 0.0;
+        v2 = 0.0;
+        v3 = 0.0;
+        v4 = 0.0;
+    };
     // costructor
     vec4(float a, float b, float c, float d)
     {
@@ -16,14 +24,6 @@ public:
         v3 = c;
         v4 = d;
     }
-    // constructor con ceros
-    void vec4cero()
-    {
-        v1 = 0.0;
-        v2 = 0.0;
-        v3 = 0.0;
-        v4 = 0.0;
-    };
     // get y set para v1
     float getv1()
     {
@@ -69,7 +69,42 @@ public:
     };
 };
 
+class nodo
+{
+    private:
+        vec4 vect;
+        nodo* sig;
+    public:
+        nodo()
+        {
+            sig = NULL;
+        };
+};
+
 int main()
 {
+    vec4 Vector1;
+    vec4 Vector2(2.4, 5.3, 4, 1.0);
+
+    cout << "ingrese los valores del vector 1" << endl;
+    float a, b, c, d;
+    cout << "ingrese el valor de v1: ";
+    cin >> a;
+    cout << "ingrese el valor de v2: ";
+    cin >> b;
+    cout << "ingrese el valor de v3: ";
+    cin >> c;
+    cout << "ingrese el valor de v4: ";
+    cin >> d;
+    Vector1.setv1(a);
+    Vector1.setv2(b);
+    Vector1.setv3(c);
+    Vector1.setv4(d);
+
+    cout << "Vector 1: " << endl;
+    Vector1.mostrar();
+
+    cout << "Vector 2: " << endl;
+    Vector2.mostrar();
     return 0;
 }
