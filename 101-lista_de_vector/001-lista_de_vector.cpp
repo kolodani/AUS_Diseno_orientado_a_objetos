@@ -79,6 +79,30 @@ class nodo
         {
             sig = NULL;
         };
+        void set_nodo(vec4 a)
+        {
+            vect = a;
+        };
+        void set_sig(nodo* a)
+        {
+            sig = a;
+        };
+        bool si_esta(vec4 a)
+        {
+            if (vect.getv1() == a.getv1() &&
+                vect.getv2() == a.getv2() &&
+                vect.getv3() == a.getv3() &&
+                vect.getv4() == a.getv4())
+            {
+                return true;
+            } else {
+                return false;
+            }
+        };
+        void mostrar()
+        {
+            vect.mostrar();
+        };
 };
 
 int main()
@@ -106,5 +130,18 @@ int main()
 
     cout << "Vector 2: " << endl;
     Vector2.mostrar();
+
+    nodo* lista = new nodo;
+    lista->set_nodo(Vector1);
+    cout << "lista del nodo con el vector 1: " << endl;
+    lista->mostrar();
+    lista->set_sig(new nodo);
+    lista->set_nodo(Vector2);
+    cout << "lista del nodo con el vector 2: " << endl;
+    lista->mostrar();
+    lista->set_sig(new nodo);
+    cout << "lista del nodo con el vector 1: " << endl;
+    lista->mostrar();
+
     return 0;
 }
