@@ -38,6 +38,44 @@ class oferta
         }
 };
 
+class lote
+{
+    private:
+        string nombre;
+        int numero;
+        oferta* ofertaMayor = nullptr;
+    public:
+        lote(string nombre, int numero)
+        {
+            this->nombre = nombre;
+            this->numero = numero;
+        };
+        string getNombre()
+        {
+            return nombre;
+        };
+        int getNumero()
+        {
+            return numero;
+        };
+        void setOfertaMayor(oferta* nuevaOferta)
+        {
+            if(ofertaMayor == nullptr)
+            {
+                this->ofertaMayor = nuevaOferta;
+                return;
+            };
+            if(ofertaMayor->getMonto() < nuevaOferta->getMonto())
+            {
+                this->ofertaMayor = nuevaOferta;
+            };
+        };
+        oferta getOferta()
+        {
+            return *ofertaMayor;
+        };
+};
+
 int main()
 {
     // persona creada de ejemplo
