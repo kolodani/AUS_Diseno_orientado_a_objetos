@@ -117,6 +117,19 @@ class Subasta
                 }
             }
         };
+        Lote *buscarLote(int numeroLote)
+        {
+            for (int i = 0; i < lotes.size(); i++)
+            {
+                if (lotes[i]->getNumero() == numeroLote)
+                {
+                    cout << "lote encontrado" << endl;
+                    return lotes[i];
+                }
+            }
+            cout << "no existe un lote con ese numero" << endl;
+            return nullptr;
+        };
 };
 
 int main()
