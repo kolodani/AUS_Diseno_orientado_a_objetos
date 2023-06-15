@@ -13,4 +13,6 @@ int main()
     fruits_count["apple"] = 10;
 
     fruits_count.insert({{"apricot", 1}, {"jackfruit", 1}, {"lime", 1}, {"mango", 7}});
+    
+    return 0;
 }
