@@ -26,25 +26,25 @@ int main()
     my_cache.insert(" 2 ", Student(2, 25, " student3 "));
     my_cache.insert(" 3 ", Student(3, 29, " student4 "));
 
-    my_cache.show_cache();
+    //my_cache.show_cache();
 
-    cout << " - - - - - - - - - - - - - - - - - - - - - -  UPDATE - - - - - - - - - - - - - - - - - - - - - - -" << endl ;
+    //cout << " - - - - - - - - - - - - - - - - - - - - - -  UPDATE - - - - - - - - - - - - - - - - - - - - - - -" << endl ;
 
-    my_cache.insert(" 2 ", Student(22, 222, " EZE "));
-    my_cache.show_cache();
+    //my_cache.insert(" 2 ", Student(22, 222, " EZE "));
+    ////my_cache.show_cache();
 
-    cout << " <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< " << endl ;
+    //cout << " <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< " << endl ;
 
-    Student return_obj = my_cache.get(" 0 "); // not in cache but in filesystem
+    //Student return_obj = my_cache.get(" 0 "); // not in cache but in filesystem
 
-    cout << " <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< " << endl;
+    //cout << " <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< " << endl;
 
-    my_cache.insert(" 2 ", Student(2, 25, " EZE "));
-    my_cache.show_cache();
-    my_cache.insert(" 9 ", Student(1, 5, " Nine "));
-    my_cache.insert(" 9 ", Student(1, 5, " Nine "));
-    my_cache.insert(" 9 ", Student(1, 5, " Nine "));
-    my_cache.show_cache();
+    //my_cache.insert(" 2 ", Student(2, 25, " EZE "));
+    ////my_cache.show_cache();
+    //my_cache.insert(" 9 ", Student(1, 5, " Nine "));
+    //my_cache.insert(" 9 ", Student(1, 5, " Nine "));
+    //my_cache.insert(" 9 ", Student(1, 5, " Nine "));
+    //my_cache.show_cache();
 
-return 0;
+    return 0;
 }

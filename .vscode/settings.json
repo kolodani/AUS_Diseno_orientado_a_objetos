@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "*.html": "html",
+        "*.asm": "mips",
+        "*.tcc": "cpp"
+    }
+}
