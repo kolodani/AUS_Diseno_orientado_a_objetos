@@ -76,7 +76,7 @@ template <class T>
 bool CacheManager<T>::write_file(string key, T obj)
 {
     // cambiar el registro si existe, pisarlo
-    Registro reg(key,obj);
+    Registro<T> reg(key,obj);
     ofstream archivo("./cache.dat", ios::app);
     archivo.write(reinterpret_cast<char *>(&reg), sizeof(reg));
     archivo.close();
