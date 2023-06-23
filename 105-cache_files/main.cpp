@@ -30,7 +30,7 @@ int main()
     p = &(my_cache.get(" 1 "));
     cout << p->getNombre() << endl;
 
-    //my_cache.show_cache();
+    my_cache.showCache();
 
     //cout << " - - - - - - - - - - - - - - - - - - - - - -  UPDATE - - - - - - - - - - - - - - - - - - - - - - -" << endl ;
 
