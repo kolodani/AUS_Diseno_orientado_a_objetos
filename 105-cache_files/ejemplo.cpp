@@ -97,6 +97,53 @@ int main()
     cout << parpivot->second.getNombre() << endl;
     cout << parpivot->second.getEdad() << endl;
     cout << parpivot->second.getRaza() << endl;
+    // cierra el archivo
+    archivo1.close();
+    
+    cout << "----------------------------------------" << endl;
+    
+    // ahora vamos a hacer otra secuencia para hacer pares distintos
+    // creo un archivo
+    ofstream archivo2("perros2.dat", ios::binary);
+    // creo un par con un string y un perro
+    pair<string, perro> par5("1", *p1);
+    pair<string, perro> par6("2", *p2);
+    pair<string, perro> par7("3", *p3);
+    pair<string, perro> par8("4", *p4);
+    // guardo el par en el archivo
+    archivo2.write(reinterpret_cast<const char *>(&par5), sizeof(pair<string, perro>));
+    archivo2.write(reinterpret_cast<const char *>(&par6), sizeof(pair<string, perro>));
+    archivo2.write(reinterpret_cast<const char *>(&par7), sizeof(pair<string, perro>));
+    archivo2.write(reinterpret_cast<const char *>(&par8), sizeof(pair<string, perro>));
+    // cierro el archivo
+    archivo2.close();
+    // leo el archivo
+    ifstream archivo3("perros2.dat", ios::binary);
+    // creo un par para leer el archivo
+    pair<string, perro> *parpivot2 = new pair<string, perro>("0", *p1);
+    // imprimo el objeto
+    archivo3.read(reinterpret_cast<char *>(parpivot2), sizeof(pair<string, perro>));
+    cout << parpivot2->first << endl;
+    cout << parpivot2->second.getNombre() << endl;
+    cout << parpivot2->second.getEdad() << endl;
+    cout << parpivot2->second.getRaza() << endl;
+    // manipulo otro objeto
+    archivo3.read(reinterpret_cast<char *>(parpivot2), sizeof(pair<string, perro>));
+    cout << parpivot2->first << endl;
+    cout << parpivot2->second.getNombre() << endl;
+    cout << parpivot2->second.getEdad() << endl;
+    cout << parpivot2->second.getRaza() << endl;
+    // salteo un objeto
+    archivo3.seekg(sizeof(pair<string, perro>), ios::cur);
+    // manipulo otro objeto
+    archivo3.read(reinterpret_cast<char *>(parpivot2), sizeof(pair<string, perro>));
+    cout << parpivot2->first << endl;
+    cout << parpivot2->second.getNombre() << endl;
+    cout << parpivot2->second.getEdad() << endl;
+    cout << parpivot2->second.getRaza() << endl;
+    // cierra el archivo
+    archivo3.close();
+
     return 0;
 }
 
