@@ -1,5 +1,7 @@
 #include <iostream>
 #include <fstream>
+#include <string>
+#include <map>
 
 using namespace std;
 
@@ -54,6 +56,7 @@ public:
 
 int main()
 {
+    std::cout << "primera parte: pair<int, perro>" << endl;
     // creo un archivo para guardar mis objetos perro
     perro *p1 = new perro("Firulais", 5, "Chihuahua");
     perro *p2 = new perro("Jorge", 4, "Doberman");
@@ -102,6 +105,7 @@ int main()
 
     std::cout << "----------------------------------------" << endl;
 
+    std::cout << "segunda parte: pair<string, perro>" << endl;
     // ahora vamos a hacer otra secuencia para hacer pares distintos
     // creo un archivo
     ofstream archivo2("perros2.dat", ios::binary);
@@ -147,6 +151,7 @@ int main()
     std::cout << "----------------------------------------" << endl;
     
     // ahora voy a tomar los pares de los dos archivos y los voy a combinar en un par nuevo en un solo archivo
+    std::cout << "tercera parte: pair<pair<int, perro>, pair<string, perro>>" << endl;
     // creo un archivo
     ofstream archivo4("perrosFINAL.dat", ios::binary);
     // creo un par con dos pares de los archivos anteriores
@@ -199,6 +204,50 @@ int main()
     std::cout << parpivot3->second.second.getRaza() << endl;
     // cierro el archivo
     archivo5.close();
+
+    std::cout << "----------------------------------------" << endl;
+
+    // ahora vamos a trabajar con un map
+    std::cout << "cuarta parte: map<int, perro>" << endl;
+    // creo un map
+    map<int, perro> map1;
+    // inserto los perros en el map
+    map1.insert(pair<int, perro>(1, *p1));
+    map1.insert(pair<int, perro>(2, *p2));
+    map1.insert(pair<int, perro>(3, *p3));
+    map1.insert(pair<int, perro>(4, *p4));
+    // creo un archivo
+    ofstream archivo6("perrosMAP.dat", ios::binary);
+    // guardo el map en el archivo
+    archivo6.write(reinterpret_cast<const char *>(&map1), sizeof(map<int, perro>));
+    // cierro el archivo
+    archivo6.close();
+    // leo el archivo
+    ifstream archivo7("perrosMAP.dat", ios::binary);
+    // creo un map para leer el archivo
+    map<int, perro> *mappivot = new map<int, perro>();
+    // imprimo el objeto
+    archivo7.read(reinterpret_cast<char *>(mappivot), sizeof(map<int, perro>));
+    std::cout << mappivot->begin()->first << endl;
+    std::cout << mappivot->begin()->second.getNombre() << endl;
+    std::cout << mappivot->begin()->second.getEdad() << endl;
+    std::cout << mappivot->begin()->second.getRaza() << endl;
+    // manipulo otro objeto
+    archivo7.read(reinterpret_cast<char *>(mappivot), sizeof(map<int, perro>));
+    std::cout << mappivot->begin()->first << endl;
+    std::cout << mappivot->begin()->second.getNombre() << endl;
+    std::cout << mappivot->begin()->second.getEdad() << endl;
+    std::cout << mappivot->begin()->second.getRaza() << endl;
+    // salteo un objeto
+    archivo7.seekg(sizeof(map<int, perro>), ios::cur);
+    // manipulo otro objeto
+    archivo7.read(reinterpret_cast<char *>(mappivot), sizeof(map<int, perro>));
+    std::cout << mappivot->begin()->first << endl;
+    std::cout << mappivot->begin()->second.getNombre() << endl;
+    std::cout << mappivot->begin()->second.getEdad() << endl;
+    std::cout << mappivot->begin()->second.getRaza() << endl;
+    // cierro el archivo
+    archivo7.close();
 
     return 0;
 }
