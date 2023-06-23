@@ -23,13 +23,16 @@ const string Student:: class_name = "StudentClass";
 int main()
 {
     CacheManager<Student> my_cache(3);
-    Student *p;
-    my_cache.insert(" 1 ", Student(1, 23, " ricardo "));
-    my_cache.insert(" 2 ", Student(2, 25, " student3 "));
-    my_cache.insert(" 3 ", Student(3, 29, " student4 "));
-    p = &(my_cache.get(" 1 "));
-    cout << p->getNombre() << endl;
-
+    //Student *p;
+    my_cache.insert(" 10 ", Student(1, 23, " ricardo10 "));
+    my_cache.insert(" 20 ", Student(2, 25, " student20 "));
+    my_cache.insert(" 30 ", Student(3, 29, " student30 "));
+    my_cache.insert(" 40 ", Student(3, 29, " student40 "));
+    my_cache.insert(" 50 ", Student(3, 29, " student50 "));
+    my_cache.write_file(" 50 ", Student(3, 29, " student50 "));
+    my_cache.write_file(" 53 ", Student(3, 29, " student53 "));
+    my_cache.write_file(" 54 ", Student(3, 29, " student54 "));
+    my_cache.write_file(" 55 ", Student(3, 29, " student55 "));
     my_cache.showCache();
 
     //cout << " - - - - - - - - - - - - - - - - - - - - - -  UPDATE - - - - - - - - - - - - - - - - - - - - - - -" << endl ;

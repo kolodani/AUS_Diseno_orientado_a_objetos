@@ -15,9 +15,9 @@ class CacheManager
     int MRU;
     map<string, pair<T, int>> cache_data; // < Clave , < Obj , Indice de Uso >>
 
-    bool write_file(string indice, T objeto);
 
 public:
+    bool write_file(string indice, T objeto);
     CacheManager():MRU(0){}; // constructor default
     CacheManager(int cap): capacity(cap),MRU(0){}; // recibe la capacidad en el int
     ~CacheManager();
@@ -32,25 +32,21 @@ public:
 template <class T>
 void CacheManager<T>::insert(string key, T obj)
 {
-    cache_data[key] = make_pair(obj, MRU++); 
-    // recordar que para meterlo en el map
-    // el objeto debe tener constructor default
+    cache_data[key] = make_pair(obj,++MRU);
 
-    if(cache_data.size() < (size_t)capacity){
-        cache_data[key] = make_pair(obj,MRU++);
-        return;
-    }
-    auto it = cache_data.begin(); // iteradores
-    auto aux = it;
-    while(it != cache_data.end()){
-        if(aux->second.second < it->second.second){
-            aux = it;
+    if(cache_data.size() > (size_t)capacity){
+        // si la memoria esta llena, tengo que matar al de MRU mas bajo
+        auto it = cache_data.begin(); // iteradores
+        auto aux = it;
+        auto indice = it->first;
+        while(it != cache_data.end()){
+            if(it->second.second < aux->second.second){
+                aux = it; // hay que borrar aux
+            }
+            it++;
         }
-        it++;
+        cache_data.erase(aux);
     }
-    cache_data.erase(aux);
-    cache_data[key] = make_pair(obj,MRU++);
-    //write_file(key,obj);
 }
 
 //template <class T>
@@ -66,8 +62,24 @@ CacheManager<T>::~CacheManager() {}
 template <class T>
 bool CacheManager<T>::write_file(string key, T obj)
 {
-    //pair<string,T> bloque(key,obj);
-    //ifstream archivoBusqueda("./cache.dat", ios::in);
+    pair<string,T> *bloquePivot; // bloque a guardar en memoria
+    pair<string,T> bloque(key,obj); // bloque a guardar en memoria
+    ifstream archivoLectura("cache.dat", ios::in);
+    ofstream archivoEscritura("cache.dat", ios::out);
+    int auxiliar = 0;
+    // ojo con que este escrito
+    while(archivoLectura.read(reinterpret_cast<char *>(bloquePivot), sizeof(pair<string,T>))){
+        if(bloquePivot->first == key){
+            archivoEscritura.write(reinterpret_cast<char *>(&bloque), sizeof(pair<string,T>));
+            auxiliar = 1;
+        }
+    }
+    if(auxiliar == 0){
+        archivoEscritura.write(reinterpret_cast<char *>(&bloque), sizeof(pair<string,T>));
+    }
+    archivoEscritura.close();
+    archivoLectura.close();
+
     return true;
 }
 
@@ -75,12 +87,12 @@ bool CacheManager<T>::write_file(string key, T obj)
 template < class T >
 T& CacheManager <T >:: get( string key )
 {
-    return cache_data[key].first;
+    return cache_data[key].second.first;
 }
 template < class T >
 void CacheManager <T >:: showCache(){
     // key -- objeto
     for(auto it = cache_data.begin(); it != cache_data.end(); it++){
-        cout << it->first << endl;
+        cout << it->first << it->second.second << endl;
     }
 }
