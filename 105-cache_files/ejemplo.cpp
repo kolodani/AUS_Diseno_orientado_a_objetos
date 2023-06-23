@@ -18,13 +18,13 @@ public:
     };
     ~perro()
     {
-        cout << "Destructor" << endl;
+        std::cout << "Destructor" << endl;
     };
     void mostrar()
     {
-        cout << "Nombre: " << nombre << endl;
-        cout << "Edad: " << edad << endl;
-        cout << "Raza: " << raza << endl;
+        std::cout << "Nombre: " << nombre << endl;
+        std::cout << "Edad: " << edad << endl;
+        std::cout << "Raza: " << raza << endl;
     };
     void setNombre(string nombre)
     {
@@ -79,28 +79,28 @@ int main()
     pair<int, perro> *parpivot = new pair<int, perro>(0, *p1);
     // imprimo el objeto
     archivo1.read(reinterpret_cast<char *>(parpivot), sizeof(pair<int, perro>));
-    cout << parpivot->first << endl;
-    cout << parpivot->second.getNombre() << endl;
-    cout << parpivot->second.getEdad() << endl;
-    cout << parpivot->second.getRaza() << endl;
+    std::cout << parpivot->first << endl;
+    std::cout << parpivot->second.getNombre() << endl;
+    std::cout << parpivot->second.getEdad() << endl;
+    std::cout << parpivot->second.getRaza() << endl;
     // manipulo otro objeto
     archivo1.read(reinterpret_cast<char *>(parpivot), sizeof(pair<int, perro>));
-    cout << parpivot->first << endl;
-    cout << parpivot->second.getNombre() << endl;
-    cout << parpivot->second.getEdad() << endl;
-    cout << parpivot->second.getRaza() << endl;
+    std::cout << parpivot->first << endl;
+    std::cout << parpivot->second.getNombre() << endl;
+    std::cout << parpivot->second.getEdad() << endl;
+    std::cout << parpivot->second.getRaza() << endl;
     // salteo un objeto
     archivo1.seekg(sizeof(pair<int, perro>), ios::cur);
     // manipulo otro objeto
     archivo1.read(reinterpret_cast<char *>(parpivot), sizeof(pair<int, perro>));
-    cout << parpivot->first << endl;
-    cout << parpivot->second.getNombre() << endl;
-    cout << parpivot->second.getEdad() << endl;
-    cout << parpivot->second.getRaza() << endl;
+    std::cout << parpivot->first << endl;
+    std::cout << parpivot->second.getNombre() << endl;
+    std::cout << parpivot->second.getEdad() << endl;
+    std::cout << parpivot->second.getRaza() << endl;
     // cierra el archivo
     archivo1.close();
 
-    cout << "----------------------------------------" << endl;
+    std::cout << "----------------------------------------" << endl;
 
     // ahora vamos a hacer otra secuencia para hacer pares distintos
     // creo un archivo
@@ -123,28 +123,28 @@ int main()
     pair<string, perro> *parpivot2 = new pair<string, perro>("0", *p1);
     // imprimo el objeto
     archivo3.read(reinterpret_cast<char *>(parpivot2), sizeof(pair<string, perro>));
-    cout << parpivot2->first << endl;
-    cout << parpivot2->second.getNombre() << endl;
-    cout << parpivot2->second.getEdad() << endl;
-    cout << parpivot2->second.getRaza() << endl;
+    std::cout << parpivot2->first << endl;
+    std::cout << parpivot2->second.getNombre() << endl;
+    std::cout << parpivot2->second.getEdad() << endl;
+    std::cout << parpivot2->second.getRaza() << endl;
     // manipulo otro objeto
     archivo3.read(reinterpret_cast<char *>(parpivot2), sizeof(pair<string, perro>));
-    cout << parpivot2->first << endl;
-    cout << parpivot2->second.getNombre() << endl;
-    cout << parpivot2->second.getEdad() << endl;
-    cout << parpivot2->second.getRaza() << endl;
+    std::cout << parpivot2->first << endl;
+    std::cout << parpivot2->second.getNombre() << endl;
+    std::cout << parpivot2->second.getEdad() << endl;
+    std::cout << parpivot2->second.getRaza() << endl;
     // salteo un objeto
     archivo3.seekg(sizeof(pair<string, perro>), ios::cur);
     // manipulo otro objeto
     archivo3.read(reinterpret_cast<char *>(parpivot2), sizeof(pair<string, perro>));
-    cout << parpivot2->first << endl;
-    cout << parpivot2->second.getNombre() << endl;
-    cout << parpivot2->second.getEdad() << endl;
-    cout << parpivot2->second.getRaza() << endl;
+    std::cout << parpivot2->first << endl;
+    std::cout << parpivot2->second.getNombre() << endl;
+    std::cout << parpivot2->second.getEdad() << endl;
+    std::cout << parpivot2->second.getRaza() << endl;
     // cierra el archivo
     archivo3.close();
 
-    cout << "----------------------------------------" << endl;
+    std::cout << "----------------------------------------" << endl;
     
     // ahora voy a tomar los pares de los dos archivos y los voy a combinar en un par nuevo en un solo archivo
     // creo un archivo
@@ -167,36 +167,36 @@ int main()
     pair<pair<int, perro>, pair<string, perro>> *parpivot3 = new pair<pair<int, perro>, pair<string, perro>>(pair<int, perro>(0, *p1), pair<string, perro>("0", *p1));
     // imprimo el objeto
     archivo5.read(reinterpret_cast<char *>(parpivot3), sizeof(pair<pair<int, perro>, pair<string, perro>>));
-    cout << parpivot3->first.first << endl;
-    cout << parpivot3->first.second.getNombre() << endl;
-    cout << parpivot3->first.second.getEdad() << endl;
-    cout << parpivot3->first.second.getRaza() << endl;
-    cout << parpivot3->second.first << endl;
-    cout << parpivot3->second.second.getNombre() << endl;
-    cout << parpivot3->second.second.getEdad() << endl;
-    cout << parpivot3->second.second.getRaza() << endl;
+    std::cout << parpivot3->first.first << endl;
+    std::cout << parpivot3->first.second.getNombre() << endl;
+    std::cout << parpivot3->first.second.getEdad() << endl;
+    std::cout << parpivot3->first.second.getRaza() << endl;
+    std::cout << parpivot3->second.first << endl;
+    std::cout << parpivot3->second.second.getNombre() << endl;
+    std::cout << parpivot3->second.second.getEdad() << endl;
+    std::cout << parpivot3->second.second.getRaza() << endl;
     // manipulo otro objeto
     archivo5.read(reinterpret_cast<char *>(parpivot3), sizeof(pair<pair<int, perro>, pair<string, perro>>));
-    cout << parpivot3->first.first << endl;
-    cout << parpivot3->first.second.getNombre() << endl;
-    cout << parpivot3->first.second.getEdad() << endl;
-    cout << parpivot3->first.second.getRaza() << endl;
-    cout << parpivot3->second.first << endl;
-    cout << parpivot3->second.second.getNombre() << endl;
-    cout << parpivot3->second.second.getEdad() << endl;
-    cout << parpivot3->second.second.getRaza() << endl;
+    std::cout << parpivot3->first.first << endl;
+    std::cout << parpivot3->first.second.getNombre() << endl;
+    std::cout << parpivot3->first.second.getEdad() << endl;
+    std::cout << parpivot3->first.second.getRaza() << endl;
+    std::cout << parpivot3->second.first << endl;
+    std::cout << parpivot3->second.second.getNombre() << endl;
+    std::cout << parpivot3->second.second.getEdad() << endl;
+    std::cout << parpivot3->second.second.getRaza() << endl;
     // salteo un objeto
     archivo5.seekg(sizeof(pair<pair<int, perro>, pair<string, perro>>), ios::cur);
     // manipulo otro objeto
     archivo5.read(reinterpret_cast<char *>(parpivot3), sizeof(pair<pair<int, perro>, pair<string, perro>>));
-    cout << parpivot3->first.first << endl;
-    cout << parpivot3->first.second.getNombre() << endl;
-    cout << parpivot3->first.second.getEdad() << endl;
-    cout << parpivot3->first.second.getRaza() << endl;
-    cout << parpivot3->second.first << endl;
-    cout << parpivot3->second.second.getNombre() << endl;
-    cout << parpivot3->second.second.getEdad() << endl;
-    cout << parpivot3->second.second.getRaza() << endl;
+    std::cout << parpivot3->first.first << endl;
+    std::cout << parpivot3->first.second.getNombre() << endl;
+    std::cout << parpivot3->first.second.getEdad() << endl;
+    std::cout << parpivot3->first.second.getRaza() << endl;
+    std::cout << parpivot3->second.first << endl;
+    std::cout << parpivot3->second.second.getNombre() << endl;
+    std::cout << parpivot3->second.second.getEdad() << endl;
+    std::cout << parpivot3->second.second.getRaza() << endl;
     // cierro el archivo
     archivo5.close();
 
