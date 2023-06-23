@@ -8,6 +8,7 @@ class perro
     string nombre;
     int edad;
     string raza;
+
 public:
     perro(string nombre, int edad, string raza)
     {
@@ -17,13 +18,13 @@ public:
     };
     ~perro()
     {
-       // cout << "Destructor" << endl;
+        cout << "Destructor" << endl;
     };
     void mostrar()
     {
-      //  cout << "Nombre: " << nombre << endl;
-      //  cout << "Edad: " << edad << endl;
-      //  cout << "Raza: " << raza << endl;
+        cout << "Nombre: " << nombre << endl;
+        cout << "Edad: " << edad << endl;
+        cout << "Raza: " << raza << endl;
     };
     void setNombre(string nombre)
     {
@@ -51,29 +52,41 @@ public:
     };
 };
 
-int main() {
+int main()
+{
     // creo un archivo para guardar mis objetos perro
-    perro *p = new perro("Firulais", 5, "Chihuahua");
-    perro *p1 = new perro("Jorge", 4, "Doberman");
+    perro *p1 = new perro("Firulais", 5, "Chihuahua");
+    perro *p2 = new perro("Jorge", 4, "Doberman");
+    perro *p3 = new perro("Marcos", 3, "Beagle");
+    perro *p4 = new perro("Morena", 2, "Rotweiler");
     // creo un archivo
     ofstream archivo("perros.dat", ios::binary);
     // creo un par con un int y un perro
-    pair<int, int> par1(323, 123);
-    pair<int, int> par2(666, 456);
-    pair<int, int> *parpivot; // epa
+    pair<int, perro> par1(1, *p1);
+    pair<int, perro> par2(2, *p2);
+    pair<int, perro> par3(3, *p3);
+    pair<int, perro> par4(4, *p4);
     // guardo el par en el archivo
-    archivo.write(reinterpret_cast<const char *>(&par1), sizeof(pair<int, int>));
-    archivo.write(reinterpret_cast<const char *>(&par2), sizeof(pair<int, int>));
+    archivo.write(reinterpret_cast<const char *>(&par1), sizeof(pair<int, perro>));
+    archivo.write(reinterpret_cast<const char *>(&par2), sizeof(pair<int, perro>));
+    archivo.write(reinterpret_cast<const char *>(&par3), sizeof(pair<int, perro>));
+    archivo.write(reinterpret_cast<const char *>(&par4), sizeof(pair<int, perro>));
     // cierro el archivo
     archivo.close();
     // leo el archivo
     ifstream archivo1("perros.dat", ios::binary);
-    // imprimo el par
+    // creo un par para leer el archivo
+    pair<int, perro> *parpivot = new pair<int, perro>(0, *p1);
+    // imprimo el objeto
+    archivo1.read(reinterpret_cast<char *>(parpivot), sizeof(pair<int, perro>));
+    cout << parpivot->first << endl;
+    cout << parpivot->second.getNombre() << endl;
+    cout << parpivot->second.getEdad() << endl;
+    cout << parpivot->second.getRaza() << endl;
 
-    archivo1.read(reinterpret_cast<char *>(parpivot), sizeof(pair<int, int>));
-    //std :: cout << parpivot->first << endl;
-    //archivo1.read(reinterpret_cast<char *>(parpivot), sizeof(parpivot));
-    //cout << parpivot->first << endl;
+    // std :: cout << parpivot->first << endl;
+    // archivo1.read(reinterpret_cast<char *>(parpivot), sizeof(parpivot));
+    // cout << parpivot->first << endl;
 
     // //escribo el objeto en el archivo
     // archivo.write(reinterpret_cast<const char *>(p), sizeof(perro));
@@ -100,10 +113,6 @@ int main() {
     // archivo2.close();
     return 0;
 }
-
-
-
-
 
 /*
 (001-objeto) -> 16bytes
