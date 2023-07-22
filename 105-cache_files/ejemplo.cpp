@@ -155,10 +155,10 @@ int main()
     // creo un archivo
     ofstream archivo4("perrosFINAL.dat", ios::binary);
     // creo un par con dos pares de los archivos anteriores
-    //pair<pair<int, perro>, pair<string, perro>> par9(pair<int, perro>(1, *p1), pair<string, perro>("1", *p1));
-    //pair<pair<int, perro>, pair<string, perro>> par10(pair<int, perro>(2, *p2), pair<string, perro>("2", *p2));
-    //pair<pair<int, perro>, pair<string, perro>> par11(pair<int, perro>(3, *p3), pair<string, perro>("3", *p3));
-    //pair<pair<int, perro>, pair<string, perro>> par12(pair<int, perro>(4, *p4), pair<string, perro>("4", *p4));
+    pair<pair<int, perro>, pair<string, perro>> par9(pair<int, perro>(1, p1), pair<string, perro>("1", p1));
+    pair<pair<int, perro>, pair<string, perro>> par10(pair<int, perro>(2, p2), pair<string, perro>("2", p2));
+    pair<pair<int, perro>, pair<string, perro>> par11(pair<int, perro>(3, p3), pair<string, perro>("3", p3));
+    pair<pair<int, perro>, pair<string, perro>> par12(pair<int, perro>(4, p4), pair<string, perro>("4", p4));
     // guardo el par en el archivo
     archivo4.write(reinterpret_cast<const char *>(&par9), sizeof(pair<pair<int, perro>, pair<string, perro>>));
     archivo4.write(reinterpret_cast<const char *>(&par10), sizeof(pair<pair<int, perro>, pair<string, perro>>));
@@ -212,10 +212,10 @@ int main()
     // creo un map
     map<int, perro> map1;
     // inserto los perros en el map
-    map1.insert(pair<int, perro>(1, *p1));
-    map1.insert(pair<int, perro>(2, *p2));
-    map1.insert(pair<int, perro>(3, *p3));
-    map1.insert(pair<int, perro>(4, *p4));
+    map1.insert(pair<int, perro>(1, p1));
+    map1.insert(pair<int, perro>(2, p2));
+    map1.insert(pair<int, perro>(3, p3));
+    map1.insert(pair<int, perro>(4, p4));
     // creo un archivo
     ofstream archivo6("perrosMAP.dat", ios::binary);
     // guardo el map en el archivo

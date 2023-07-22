@@ -3,10 +3,10 @@
 #include <map>
 #include <utility>
 #include <string>
+#include <cstdio>
 #define ARCHIVO "cache.dat"
 
 using namespace std;
-
 
 template <class T>
 class CacheManager
@@ -14,7 +14,6 @@ class CacheManager
     int capacity;
     int MRU;
     map<string, pair<T, int>> cache_data; // < Clave , < Obj , Indice de Uso >>
-
 
 public:
     bool write_file(string indice, T objeto);
@@ -61,27 +60,26 @@ bool CacheManager<T>::write_file(string key, T obj)
     // seekp -> el output stream se posiciona en ese puntero
     // seekg -> el input stream se posiciona en ese puntero
 
-    pair<string,T> bloque(key,obj); // bloque a guardar en memoria
-    pair<string,T> *bloquePivot = nullptr; // bloque a guardar en memoria
-    ifstream lec("cache.dat",ios::in);
-    ofstream esc("cache.dat",ios::out);
-    streampos pEscritura;
+    pair<string,T> bloqueActualizado(key,obj); // bloque a guardar en memoria
+    pair<string,T> *bloquePivot = new pair<string,T>(); // bloque a guardar en memoria
+    ifstream lectura("cache.dat",ios::in | ios :: binary);
+    ofstream archivoAux("aux.dat", ios::app | ios:: binary);
 
-    if(!lec || !esc) return false;
-    
-    do{
-        pEscritura = lec.tellg();
-        lec.read(reinterpret_cast<char *>(bloquePivot), sizeof(pair<string,T>));
-        // leo hasta encontrar el objeto, si no lo encuentro,salgo en eof
-        if(bloquePivot && bloquePivot->first == key) // leo solo si hay algo en el bloque
-            break;
-    }while(!lec.eof());
-    lec.close();
+    if(!lectura || !archivoAux) return false;
 
-    // escribo en eof o en el objeto, depende si encontre la key o no
-    esc.seekp(pEscritura);
-    esc.write(reinterpret_cast<char *>(&bloque), sizeof(bloque));
-    esc.close();
+    lectura.read(reinterpret_cast<char*>(bloquePivot), sizeof(pair<string,T>));
+    //cout << bloquePivot->first << endl;
+    //while(){
+    //    if(bloquePivot->first != key){
+    //        archivoAux.write(reinterpret_cast<char*>(bloquePivot), sizeof(pair<string,T>));
+    //    }
+    //}
+    //archivoAux.write(reinterpret_cast<char*>(&bloqueActualizado), sizeof(pair<string,T>));
+    lectura.close();
+    //archivoAux.close();
+
+    //remove("cache.dat");
+    //rename("aux.dat","cache.dat");
 
     return true;
 }
@@ -97,9 +95,8 @@ template <class T>
 T& CacheManager <T >:: getFromCache( string key, T obj)
 {
     ifstream lec("cache.dat",ios::binary);
-    pair<string,T> *bloquePivot = nullptr;
+    pair<string,T> *bloquePivot = new pair<string,T>();
     while(lec.read(reinterpret_cast<char *>(bloquePivot), sizeof(pair<string,T>))){
-        cout << "droga" << endl;
         if(bloquePivot && bloquePivot->first == key){
             return bloquePivot->second;
         }
