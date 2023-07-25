@@ -91,7 +91,7 @@ T CacheManager <T>:: get(const string& key)
 }
 
 template <class T>
-T CacheManager <T>:: getFromCache(const string& key)
+T CacheManager <T>:: getFromMem(const string& key)
 {
     ifstream w(ARCHIVO,ios::in | ios::binary);
     pair<string,T> bPivot;

@@ -24,7 +24,7 @@ public:
 
     void insert(const string& key,const T& obj);
     T get(const string& key);
-    T getFromCache(const string& key);
+    T getFromMem(const string& key);
     void showCache();
     bool writeFile(const string& indice,const T& objeto);
 };
@@ -58,27 +58,27 @@ bool CacheManager<T>::writeFile(const string& key, const T& obj)
     ofstream w;
     ifstream r;
     r.open(ARCHIVO, ios::binary | ios::in);
-    w.open(ARCHIVO_AUX, ios::app | ios::out);
+    w.open(ARCHIVO_AUX, ios::binary | ios::out);
 
     if(!(w && r)) return false;
-    // si no se pudieron abrir, retorno false
 
-    // copio todo el archivo en aux.dat excepto el bloque de cache que debo actualizar
-    // agregandolo al final
+    //r.read(reinterpret_cast<char *>(&bPivot),blockSize);
 
-    r.read(reinterpret_cast<char*>(&bPivot), blockSize);
-    //while(r.read(reinterpret_cast<char*>(&bPivot), blockSize)){
-    //    cout << "holas" << endl;
-    //    if(bPivot.first != key)
+    // -------------------------
+    //while (r.read(reinterpret_cast<char *>(&bPivot),blockSize))
+    //{
+    //    if(bPivot.first != key){
     //        w.write(reinterpret_cast<char*>(&bPivot), blockSize);
+    //    }
     //}
-    //w.write(reinterpret_cast<char*>(&block), blockSize);
+    // ---------------------
 
-    //w.close();
-    //r.close();
+    w.write(reinterpret_cast<char*>(&block), blockSize);
+    r.close();
+    w.close();
 
-    //remove(ARCHIVO);
-    //rename(ARCHIVO_AUX,ARCHIVO);
+    remove(ARCHIVO);
+    rename(ARCHIVO_AUX,ARCHIVO);
 
     return true;
 }
@@ -91,11 +91,12 @@ T CacheManager <T>:: get(const string& key)
 }
 
 template <class T>
-T CacheManager <T>:: getFromCache(const string& key)
+T CacheManager <T>:: getFromMem(const string& key)
 {
-    ifstream w(ARCHIVO,ios::in | ios::binary);
+    ifstream w(ARCHIVO, ios::in | ios::binary);
     pair<string,T> bPivot;
     // read ya marca una lectura despues del EOF
+    w.read(reinterpret_cast<char *>(&bPivot), blockSize);
     while(w.read(reinterpret_cast<char *>(&bPivot), blockSize)
             && bPivot.first != key){}
     w.close();

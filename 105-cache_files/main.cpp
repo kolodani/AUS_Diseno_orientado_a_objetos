@@ -28,8 +28,9 @@ int main()
     //my_cache.insert(" 20 ", Student(2, 25, " student20 "));
     //my_cache.insert(" 30 ", Student(3, 29, " student30 "));
     //my_cache.insert(" 40 ", Student(3, 29, " student40 "));
-    //my_cache.insert(" 50 ", Student(3, 29, " student50 "));
-    my_cache.writeFile(" 40 ", Student(3, 12, " elo "));
+
+    //my_cache.writeFile(" 1200 ", Student(3, 29, " student50 "));
+     my_cache.getFromMem(" 50 ");
 
     //cout << " - - - - - - - - - - - - - - - - - - - - - -  UPDATE - - - - - - - - - - - - - - - - - - - - - - -" << endl ;
 
