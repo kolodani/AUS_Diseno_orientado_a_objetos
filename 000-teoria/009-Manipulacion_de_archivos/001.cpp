@@ -22,7 +22,7 @@ int main()
     char nombre[30];
     double saldo;
 
-    // lle la cuenta, nombre y saldo de cin, y despues los coloca en el archivo
+    // lee la cuenta, nombre y saldo de cin, y despues los coloca en el archivo
     while (cin >> cuenta >> nombre >> saldo)
     {
         archivoClienteSalida << cuenta << ' ' << nombre << ' ' << saldo << endl;
