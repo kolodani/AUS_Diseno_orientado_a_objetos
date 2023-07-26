@@ -20,3 +20,13 @@ int cmp_nocese(string s, string s2)
 
     return (s2.size() == s.size()) ? 0 : (s.size() < s2.size()) ? -1 : 1;
 };
+
+int main()
+{
+    string s = "Apple";
+    string s2 = "apartment";
+
+    cout << cmp_nocese(s, s2) << endl;
+
+    return 0;
+}
