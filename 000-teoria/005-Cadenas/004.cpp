@@ -20,3 +20,11 @@ void f()
     s = 'a';               // esto es correcto
     s = "a";               // esto es correcto
 }
+
+int main()
+{
+    g();
+    f();
+
+    return 0;
+}
