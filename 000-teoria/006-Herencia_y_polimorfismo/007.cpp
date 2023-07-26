@@ -11,6 +11,16 @@ public:
     void caminar();
 };
 
+void Persona::hablar()
+{
+    cout << "bla bla bla" << endl;
+};
+
+void Persona::caminar()
+{
+    cout << "caminando" << endl;
+};
+
 class Estudiante : public Persona
 {
     int legajo;
@@ -20,6 +30,16 @@ public:
     void estudiar();
 };
 
+void Estudiante::hablar()
+{
+    cout << "Dando una leccion" << endl;
+};
+
+void Estudiante::estudiar()
+{
+    cout << "estudiando" << endl;
+};
+
 class Docente : public Persona
 {
     int cuil;
@@ -27,6 +47,16 @@ class Docente : public Persona
 public:
     virtual void hablar();
     void catedra();
+};
+
+void Docente::hablar()
+{
+    cout << "Dando una clase" << endl;
+};
+
+void Docente::catedra()
+{
+    cout << "catedra de la materia" << endl;
 };
 
 int main()
