@@ -11,6 +11,16 @@ public:
     void caminar();
 };
 
+void Persona::hablar()
+{
+    cout << "bla bla bla" << endl;
+};
+
+void Persona::caminar()
+{
+    cout << "caminando" << endl;
+};
+
 class Estudiante : public Persona
 {
     int legajo;
@@ -18,6 +28,16 @@ class Estudiante : public Persona
 public:
     void hablar();
     void estudiar();
+};
+
+void Estudiante::hablar()
+{
+    cout << "Dando una leccion" << endl;
+};
+
+void Estudiante::estudiar()
+{
+    cout << "estudiando" << endl;
 };
 
 int main()
