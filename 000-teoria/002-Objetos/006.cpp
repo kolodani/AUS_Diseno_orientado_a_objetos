@@ -23,6 +23,11 @@ Objeto::Objeto(int x, int y)
     this->y = y;
 };
 
+Objeto::~Objeto()
+{
+    cout << "Objeto destruido" << endl;
+};
+
 int main()
 {
     Objeto A; // se llama al constructor por default
