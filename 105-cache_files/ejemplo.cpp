@@ -113,6 +113,28 @@ int main()
             archivo5 << linea << endl;
         }
     }
+    archivo4.close();
+    archivo5.close();
+
+    cout << "segunda parte" << endl;
+    // ahora abro el archivo original y guardo los datos del 3 perro en un objeto perro
+    ifstream archivo6("perros.txt");
+    string codigo;
+    string nombre;
+    int edad;
+    string raza;
+    while (archivo6 >> codigo >> nombre >> edad >> raza)
+    {
+        if (codigo == par3.first)
+        {
+            p3->setNombre(nombre);
+            p3->setEdad(edad);
+            p3->setRaza(raza);
+        }
+    }
+    archivo6.close();
+    // imprimo los datos del perro p3
+    p3->mostrar();
 
     return 0;
 }
