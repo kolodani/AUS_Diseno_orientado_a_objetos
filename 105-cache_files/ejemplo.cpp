@@ -12,6 +12,12 @@ class perro
     string raza;
 
 public:
+    perro()
+    {
+        nombre = "";
+        edad = 0;
+        raza = "";
+    };
     perro(string nombre, int edad, string raza)
     {
         this->nombre = nombre;
@@ -212,10 +218,10 @@ int main()
     // creo un map
     map<int, perro> map1;
     // inserto los perros en el map
-    map1.insert(pair<int, perro>(1, p1));
-    map1.insert(pair<int, perro>(2, p2));
-    map1.insert(pair<int, perro>(3, p3));
-    map1.insert(pair<int, perro>(4, p4));
+    map1.insert(pair<int, perro>(1, *p1));
+    map1.insert(pair<int, perro>(2, *p2));
+    map1.insert(pair<int, perro>(3, *p3));
+    map1.insert(pair<int, perro>(4, *p4));
     // creo un archivo
     ofstream archivo6("perrosMAP.dat", ios::binary);
     // guardo el map en el archivo
@@ -248,6 +254,91 @@ int main()
     std::cout << mappivot->begin()->second.getRaza() << endl;
     // cierro el archivo
     archivo7.close();
+
+    // borro los perros
+    delete p1;
+    delete p2;
+    delete p3;
+    delete p4;
+
+    // borro los archivos
+    remove("perros.dat");
+    remove("perrosFINAL.dat");
+    remove("perrosMAP.dat");
+
+    std::cout << "----------------------------------------" << endl;
+
+    // ahora voy a crear un perro
+    std::cout << "quinta parte: perro" << endl;
+    // creo un perro
+    perro *p5 = new perro("perro5", 5, "raza5");
+    // lo agrego a un par con un string
+    pair<string, perro> *parpivot4 = new pair<string, perro>("dani", *p5);
+    // creo un archivo
+    ofstream archivo8("perro.dat", ios::binary);
+    // guardo el par en el archivo
+    archivo8.write(reinterpret_cast<const char *>(parpivot4), sizeof(pair<string, perro>));
+    // cierro el archivo
+    archivo8.close();
+    // creo otro par con otro perro
+    perro *p6 = new perro("perro6", 6, "raza6");
+    pair<string, perro> *parpivot5 = new pair<string, perro>("elias", *p6);
+    // lo agrego al archivo
+    ofstream archivo9("perro.dat", ios::binary | ios::app);
+    archivo9.write(reinterpret_cast<const char *>(parpivot5), sizeof(pair<string, perro>));
+    // cierro el archivo
+    archivo9.close();
+    // quiero modificar el primer perro en el archivo
+    // primero creo un archivo de respaldo al que voy a modificar
+    ifstream archivo10("perro.dat", ios::binary);
+    ofstream archivo11("perroFINAL.dat", ios::binary);
+    // creo un string para leer el archivo
+    string linea;
+    if(archivo10 && archivo11)
+    {
+        while (getline(archivo10, linea))
+        {
+            archivo11 << linea << endl;
+        }
+        std::cout << "archivo de respaldo creado" << endl;
+    }
+    else
+    {
+        std::cout << "no se pudo crear el archivo de respaldo" << endl;
+    }
+    // cierro los archivos
+    archivo10.close();
+    archivo11.close();
+
+    // ahora voy a modificar el objeto del primer perro
+    // creo un perro nuevo
+    perro *p7 = new perro("perro7", 7, "raza7");
+    // creo un par nuevo
+    pair<string, perro> *parpivot6 = new pair<string, perro>("dani", *p7);
+    // voy a reescribir el archivo original usando el de respaldo sacando a dani
+    ifstream archivo12("perroFINAL.dat", ios::binary);
+    ofstream archivo13("perro.dat", ios::binary);
+    // creo un par para leer el archivo
+    pair<string, perro> *parpivot7 = new pair<string, perro>();
+    // leo el archivo
+    archivo12.read(reinterpret_cast<char *>(parpivot7), sizeof(pair<string, perro>));
+    // si el nombre del perro es dani, lo salteo
+    if (parpivot7->first == "dani")
+    {
+        archivo12.seekg(sizeof(pair<string, perro>), ios::cur);
+    }
+    // guardo el par en el archivo
+    archivo13.write(reinterpret_cast<const char *>(parpivot7), sizeof(pair<string, perro>));
+    // cierro el archivo
+    archivo12.close();
+    archivo13.close();
+    // ahora voy a agregar el nuevo perro
+    // abro el archivo
+    ofstream archivo14("perro.dat", ios::binary | ios::app);
+    // guardo el par en el archivo
+    archivo14.write(reinterpret_cast<const char *>(parpivot6), sizeof(pair<string, perro>));
+    // cierro el archivo
+    archivo14.close();
 
     return 0;
 }

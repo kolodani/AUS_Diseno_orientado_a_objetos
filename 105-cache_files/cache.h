@@ -19,7 +19,8 @@ class CacheManager
 
 public:
     CacheManager():MRU(0){}; // constructor default
-    CacheManager(int cap): blockSize(sizeof(pair<string,T>)),capacity(cap),MRU(0){}; 
+    CacheManager(int cap): blockSize(sizeof(pair<string,pair<T, int>>)),capacity(cap),MRU(0){};
+    // -------cambie (sizeof(pair<string,T>) por (sizeof(pair<string,pair<T,int>>)
     ~CacheManager();
 
     void insert(const string& key,const T& obj);
@@ -39,12 +40,13 @@ void CacheManager<T>::insert(const string& key,const T& obj)
         auto it = cache_data.begin(); // iteradores
         auto aux = it;
         while(it != cache_data.end()){
-            if(it->second.second < aux->second.second) 
-                aux = it; 
+            if(it->second.second < aux->second.second)
+                aux = it;
             it++;
         }
         cache_data.erase(aux);
     }
+    writeFile(key,obj);
 }
 
 template <class T>
@@ -55,23 +57,21 @@ bool CacheManager<T>::writeFile(const string& key, const T& obj)
 {
     pair<string,T> block(key,obj); // bloque a guardar en memoria
     pair<string,T> bPivot; // bloque para realizar operaciones
-    ofstream w;
-    ifstream r;
-    r.open(ARCHIVO, ios::binary | ios::in);
-    w.open(ARCHIVO_AUX, ios::binary | ios::out);
+
+    ifstream r(ARCHIVO, ios::in | ios::binary);
+    ofstream w(ARCHIVO_AUX, ios::out | ios::binary);
 
     if(!(w && r)) return false;
 
-    //r.read(reinterpret_cast<char *>(&bPivot),blockSize);
+    // r.read(reinterpret_cast<char *>(&bPivot),blockSize);
 
-    // -------------------------
-    //while (r.read(reinterpret_cast<char *>(&bPivot),blockSize))
-    //{
-    //    if(bPivot.first != key){
-    //        w.write(reinterpret_cast<char*>(&bPivot), blockSize);
-    //    }
-    //}
-    // ---------------------
+    // while (r.read(reinterpret_cast<char *>(&bPivot),blockSize))
+    // {
+    //     if(bPivot.first != key){
+    //         w.write(reinterpret_cast<char*>(&bPivot), blockSize);
+    //     }
+    // }
+
 
     w.write(reinterpret_cast<char*>(&block), blockSize);
     r.close();
