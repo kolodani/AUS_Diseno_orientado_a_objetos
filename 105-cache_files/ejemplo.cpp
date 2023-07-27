@@ -212,10 +212,10 @@ int main()
     // creo un map
     map<int, perro> map1;
     // inserto los perros en el map
-    map1.insert(pair<int, perro>(1, *p1));
-    map1.insert(pair<int, perro>(2, *p2));
-    map1.insert(pair<int, perro>(3, *p3));
-    map1.insert(pair<int, perro>(4, *p4));
+    map1.insert(pair<int, perro>(1, p1));
+    map1.insert(pair<int, perro>(2, p2));
+    map1.insert(pair<int, perro>(3, p3));
+    map1.insert(pair<int, perro>(4, p4));
     // creo un archivo
     ofstream archivo6("perrosMAP.dat", ios::binary);
     // guardo el map en el archivo

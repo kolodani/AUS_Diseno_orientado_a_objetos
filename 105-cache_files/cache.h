@@ -3,35 +3,34 @@
 #include <map>
 #include <utility>
 #include <string>
+#include <cstdio>
 #define ARCHIVO "cache.dat"
+#define ARCHIVO_AUX "aux.dat"
 
 using namespace std;
-
 
 template <class T>
 class CacheManager
 {
+    size_t blockSize;
     int capacity;
     int MRU;
     map<string, pair<T, int>> cache_data; // < Clave , < Obj , Indice de Uso >>
 
-
 public:
-    bool write_file(string indice, T objeto);
     CacheManager():MRU(0){}; // constructor default
-    CacheManager(int cap): capacity(cap),MRU(0){}; // recibe la capacidad en el int
+    CacheManager(int cap): blockSize(sizeof(pair<string,T>)),capacity(cap),MRU(0){}; 
     ~CacheManager();
 
-    void insert(string key, T obj);
-    T& get(string key);
-    T& getFromCache( string key, T obj);
+    void insert(const string& key,const T& obj);
+    T get(const string& key);
+    T getFromMem(const string& key);
     void showCache();
-    // Agregar todas las funciones necesarias
+    bool writeFile(const string& indice,const T& objeto);
 };
 
-// INSERT
 template <class T>
-void CacheManager<T>::insert(string key, T obj)
+void CacheManager<T>::insert(const string& key,const T& obj)
 {
     cache_data[key] = make_pair(obj,++MRU);
 
@@ -40,9 +39,8 @@ void CacheManager<T>::insert(string key, T obj)
         auto it = cache_data.begin(); // iteradores
         auto aux = it;
         while(it != cache_data.end()){
-            if(it->second.second < aux->second.second){
-                aux = it; // hay que borrar aux
-            }
+            if(it->second.second < aux->second.second) 
+                aux = it; 
             it++;
         }
         cache_data.erase(aux);
@@ -53,63 +51,62 @@ template <class T>
 CacheManager<T>::~CacheManager() {}
 
 template <class T>
-bool CacheManager<T>::write_file(string key, T obj)
+bool CacheManager<T>::writeFile(const string& key, const T& obj)
 {
-    // streampos -> tipo de dato para guardar posiciones de punteros de streams (archivos)
-    // tellp -> dice la posicion en output stream (escritura)
-    // tellg -> dice la posicion en input stream (lectura)
-    // seekp -> el output stream se posiciona en ese puntero
-    // seekg -> el input stream se posiciona en ese puntero
+    pair<string,T> block(key,obj); // bloque a guardar en memoria
+    pair<string,T> bPivot; // bloque para realizar operaciones
+    ofstream w;
+    ifstream r;
+    r.open(ARCHIVO, ios::binary | ios::in);
+    w.open(ARCHIVO_AUX, ios::binary | ios::out);
 
-    pair<string,T> bloque(key,obj); // bloque a guardar en memoria
-    pair<string,T> *bloquePivot = nullptr; // bloque a guardar en memoria
-    ifstream lec("cache.dat",ios::in);
-    ofstream esc("cache.dat",ios::out);
-    streampos pEscritura;
+    if(!(w && r)) return false;
 
-    if(!lec || !esc) return false;
-    
-    do{
-        pEscritura = lec.tellg();
-        lec.read(reinterpret_cast<char *>(bloquePivot), sizeof(pair<string,T>));
-        // leo hasta encontrar el objeto, si no lo encuentro,salgo en eof
-        if(bloquePivot && bloquePivot->first == key) // leo solo si hay algo en el bloque
-            break;
-    }while(!lec.eof());
-    lec.close();
+    //r.read(reinterpret_cast<char *>(&bPivot),blockSize);
 
-    // escribo en eof o en el objeto, depende si encontre la key o no
-    esc.seekp(pEscritura);
-    esc.write(reinterpret_cast<char *>(&bloque), sizeof(bloque));
-    esc.close();
+    // -------------------------
+    //while (r.read(reinterpret_cast<char *>(&bPivot),blockSize))
+    //{
+    //    if(bPivot.first != key){
+    //        w.write(reinterpret_cast<char*>(&bPivot), blockSize);
+    //    }
+    //}
+    // ---------------------
+
+    w.write(reinterpret_cast<char*>(&block), blockSize);
+    r.close();
+    w.close();
+
+    remove(ARCHIVO);
+    rename(ARCHIVO_AUX,ARCHIVO);
 
     return true;
 }
 
 
 template < class T >
-T& CacheManager <T >:: get( string key )
+T CacheManager <T>:: get(const string& key)
 {
     return cache_data[key].second.first;
 }
 
 template <class T>
-T& CacheManager <T >:: getFromCache( string key, T obj)
+T CacheManager <T>:: getFromMem(const string& key)
 {
-    ifstream lec("cache.dat",ios::binary);
-    pair<string,T> *bloquePivot = nullptr;
-    while(lec.read(reinterpret_cast<char *>(bloquePivot), sizeof(pair<string,T>))){
-        cout << "droga" << endl;
-        if(bloquePivot && bloquePivot->first == key){
-            return bloquePivot->second;
-        }
-    }
-    return bloquePivot->second;
+    ifstream w(ARCHIVO, ios::in | ios::binary);
+    pair<string,T> bPivot;
+    // read ya marca una lectura despues del EOF
+    w.read(reinterpret_cast<char *>(&bPivot), blockSize);
+    while(w.read(reinterpret_cast<char *>(&bPivot), blockSize)
+            && bPivot.first != key){}
+    w.close();
+    // devuelvo por valor
+    return bPivot.second;
 }
+
 template < class T >
-void CacheManager <T >:: showCache(){
-    // key -- objeto
-    for(auto it = cache_data.begin(); it != cache_data.end(); it++){
+void CacheManager <T >:: showCache()
+{
+    for(auto it = cache_data.begin(); it != cache_data.end(); it++)
         cout << it->first << it->second.second << endl;
-    }
 }
