@@ -24,10 +24,11 @@ int main()
 {
     CacheManager<Student> my_cache(3);
     Student p;
-    my_cache.insert(" 10 ", Student(1, 23, " ricardo10 "));
-    my_cache.insert(" 20 ", Student(2, 25, " student20 "));
-    my_cache.insert(" 30 ", Student(3, 29, " student30 "));
-    my_cache.insert(" 40 ", Student(3, 29, " student40 "));
+    my_cache.insert(" 10 ", Student(11, 23, " ricardo "));
+    my_cache.insert(" 20 ", Student(22, 25, " mateo "));
+    my_cache.insert(" 30 ", Student(33, 29, " ciro "));
+    my_cache.insert(" 40 ", Student(44, 29, " antonella "));
+    my_cache.insert(" 20 ", Student(55, 66, " jorge "));
 
     //my_cache.getFromMem(" 50 ");
 

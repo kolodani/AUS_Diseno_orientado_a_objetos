@@ -18,95 +18,127 @@ class CacheManager
     map<string, pair<T, int>> cache_data; // < Clave , < Obj , Indice de Uso >>
 
 public:
-    CacheManager():MRU(0){}; // constructor default
-    CacheManager(int cap): blockSize(sizeof(pair<string,pair<T, int>>)),capacity(cap),MRU(0){};
-    // -------cambie (sizeof(pair<string,T>) por (sizeof(pair<string,pair<T,int>>)
+    CacheManager() : MRU(0){}; // constructor default
+    CacheManager(int cap) : blockSize(sizeof(pair<string, T>)), capacity(cap), MRU(0){};
     ~CacheManager();
 
-    void insert(const string& key,const T& obj);
-    T get(const string& key);
-    T getFromMem(const string& key);
+    void insert(const string &key, const T &obj);
+    T get(const string &key);
+    T getFromMem(const string &key);
     void showCache();
-    bool writeFile(const string& indice,const T& objeto);
+    bool writeFile(const string &indice, const T &objeto);
 };
 
 template <class T>
-void CacheManager<T>::insert(const string& key,const T& obj)
+void CacheManager<T>::insert(const string &key, const T &obj)
 {
-    cache_data[key] = make_pair(obj,++MRU);
+    cache_data[key] = make_pair(obj, ++MRU);
 
-    if(cache_data.size() > (size_t)capacity){
+    if (cache_data.size() > (size_t)capacity)
+    {
         // si la memoria esta llena, tengo que matar al de MRU mas bajo
         auto it = cache_data.begin(); // iteradores
         auto aux = it;
-        while(it != cache_data.end()){
-            if(it->second.second < aux->second.second)
+        while (it != cache_data.end())
+        {
+            if (it->second.second < aux->second.second)
                 aux = it;
             it++;
         }
         cache_data.erase(aux);
     }
-    writeFile(key,obj);
+    writeFile(key, obj);
 }
 
 template <class T>
 CacheManager<T>::~CacheManager() {}
 
 template <class T>
-bool CacheManager<T>::writeFile(const string& key, const T& obj)
+bool CacheManager<T>::writeFile(const string &key, const T &obj)
 {
-    pair<string,T> block(key,obj); // bloque a guardar en memoria
-    pair<string,T> bPivot; // bloque para realizar operaciones
-
+    int repetido = 0;
+    // bloque a guardar en memoria
+    pair<string, T> block(key, obj);
+    // bloque para realizar operaciones
+    pair<string, T> bPivot;
+    // abro el archivo para lectura, sino existe lo crea
     ifstream r(ARCHIVO, ios::in | ios::binary);
-    ofstream w(ARCHIVO_AUX, ios::out | ios::binary);
-
-    if(!(w && r)) return false;
-
-    // r.read(reinterpret_cast<char *>(&bPivot),blockSize);
-
-    // while (r.read(reinterpret_cast<char *>(&bPivot),blockSize))
-    // {
-    //     if(bPivot.first != key){
-    //         w.write(reinterpret_cast<char*>(&bPivot), blockSize);
-    //     }
-    // }
-
-
-    w.write(reinterpret_cast<char*>(&block), blockSize);
-    r.close();
+    // recorro el archivo para ver si existe la clave
+    while (r.read(reinterpret_cast<char *>(&bPivot), blockSize))
+    {
+        if (bPivot.first == key)
+        {
+            repetido = 1;
+            cout << "La clave ya existe en el archivo" << endl;
+        }
+    }
+    
+    
+    
+    
+    
+    // agrego el elemento al final del archivo
+    ofstream w(ARCHIVO, ios::app | ios::binary);
+    w.write(reinterpret_cast<char *>(&block), blockSize);
     w.close();
-
-    remove(ARCHIVO);
-    rename(ARCHIVO_AUX,ARCHIVO);
-
     return true;
 }
 
-
-template < class T >
-T CacheManager <T>:: get(const string& key)
+template <class T>
+T CacheManager<T>::get(const string &key)
 {
     return cache_data[key].second.first;
 }
 
 template <class T>
-T CacheManager <T>:: getFromMem(const string& key)
+T CacheManager<T>::getFromMem(const string &key)
 {
     ifstream w(ARCHIVO, ios::in | ios::binary);
-    pair<string,T> bPivot;
+    pair<string, T> bPivot;
     // read ya marca una lectura despues del EOF
     w.read(reinterpret_cast<char *>(&bPivot), blockSize);
-    while(w.read(reinterpret_cast<char *>(&bPivot), blockSize)
-            && bPivot.first != key){}
+    while (w.read(reinterpret_cast<char *>(&bPivot), blockSize) && bPivot.first != key)
+    {
+    }
     w.close();
     // devuelvo por valor
     return bPivot.second;
 }
 
-template < class T >
-void CacheManager <T >:: showCache()
+template <class T>
+void CacheManager<T>::showCache()
 {
-    for(auto it = cache_data.begin(); it != cache_data.end(); it++)
+    for (auto it = cache_data.begin(); it != cache_data.end(); it++)
         cout << it->first << it->second.second << endl;
 }
+
+// template <class T>
+// bool CacheManager<T>::writeFile(const string &key, const T &obj)
+// {
+//     pair<string, T> block(key, obj); // bloque a guardar en memoria
+//     pair<string, T> bPivot;          // bloque para realizar operaciones
+
+//     ifstream r(ARCHIVO, ios::in | ios::binary);
+//     ofstream w(ARCHIVO_AUX, ios::out | ios::binary);
+
+//     if (!(w && r))
+//         return false;
+
+//     // r.read(reinterpret_cast<char *>(&bPivot),blockSize);
+
+//     // while (r.read(reinterpret_cast<char *>(&bPivot),blockSize))
+//     // {
+//     //     if(bPivot.first != key){
+//     //         w.write(reinterpret_cast<char*>(&bPivot), blockSize);
+//     //     }
+//     // }
+
+//     w.write(reinterpret_cast<char *>(&block), blockSize);
+//     r.close();
+//     w.close();
+
+//     remove(ARCHIVO);
+//     rename(ARCHIVO_AUX, ARCHIVO);
+
+//     return true;
+// }

@@ -204,6 +204,43 @@ int main()
     }
     archivo13.close();
 
+    // voy a modificar el perro p2
+    p2->setNombre("firulais4");
+    p2->setEdad(8);
+    p2->setRaza("labrador4");
+    // voy a buscar el par que tiene al perro p2 por su codigo y aviso si lo encontre o no
+    ifstream archivo14("perros.dat", ios::binary);
+    bool encontrado = false;
+    while (archivo14.read((char *)&par, sizeof(par)))
+    {
+        if (par.first == par2.first)
+        {
+            encontrado = true;
+            cout << "Encontre el perro p2" << endl;
+        }
+    }
+    archivo14.close();
+    // si lo encontre voy a reescribir el archivo binario .dat sin el perro p2 usando el archivo de respaldo
+    if (encontrado)
+    {
+        ifstream archivo15("perrosCOPY.dat", ios::binary);
+        ofstream archivo16("perros.dat", ios::binary);
+        while (archivo15.read((char *)&par, sizeof(par)))
+        {
+            if (par.first != par2.first)
+            {
+                archivo16.write((char *)&par, sizeof(par));
+            }
+        }
+        archivo15.close();
+        archivo16.close();
+    }
+    // y ahora voy a agregar el perro p2 modificado al final del archivo binario .dat
+    ofstream archivo17("perros.dat", ios::binary | ios::app);
+    archivo17.write((char *)&par2, sizeof(par2));
+    archivo17.close();
+
+
     return 0;
 }
 
