@@ -62,283 +62,57 @@ public:
 
 int main()
 {
-    std::cout << "primera parte: pair<int, perro>" << endl;
-    // creo un archivo para guardar mis objetos perro
-    perro *p1 = new perro("Firulais", 5, "Chihuahua");
-    perro *p2 = new perro("Jorge", 4, "Doberman");
-    perro *p3 = new perro("Marcos", 3, "Beagle");
-    perro *p4 = new perro("Morena", 2, "Rotweiler");
-    // creo un archivo
-    ofstream archivo("perros.dat", ios::binary);
-    // creo un par con un int y un perro
-    pair<int, perro> par1(1, *p1);
-    pair<int, perro> par2(2, *p2);
-    pair<int, perro> par3(3, *p3);
-    pair<int, perro> par4(4, *p4);
-    // guardo el par en el archivo
-    archivo.write(reinterpret_cast<const char *>(&par1), sizeof(pair<int, perro>));
-    archivo.write(reinterpret_cast<const char *>(&par2), sizeof(pair<int, perro>));
-    archivo.write(reinterpret_cast<const char *>(&par3), sizeof(pair<int, perro>));
-    archivo.write(reinterpret_cast<const char *>(&par4), sizeof(pair<int, perro>));
-    // cierro el archivo
+    cout << "primera parte" << endl;
+    // creo 5 punteros a perro
+    perro *p1 = new perro("firulais", 5, "labrador");
+    perro *p2 = new perro("boby", 3, "pastor aleman");
+    perro *p3 = new perro("scooby", 10, "gran danes");
+    perro *p4 = new perro("snoopy", 7, "beagle");
+    perro *p5 = new perro("pluto", 2, "fox terrier");
+    // creo 5 pares de string y puntero a perro
+    pair<string, perro *> par1("A1A1A", p1);
+    pair<string, perro *> par2("B2B2B", p2);
+    pair<string, perro *> par3("C3C3C", p3);
+    pair<string, perro *> par4("D4D4D", p4);
+    pair<string, perro *> par5("E5E5E", p5);
+    // creo un archivo txt y guardo los pares
+    ofstream archivo("perros.txt");
+    archivo << par1.first << " " << par1.second->getNombre() << " " << par1.second->getEdad() << " " << par1.second->getRaza() << endl;
+    archivo << par2.first << " " << par2.second->getNombre() << " " << par2.second->getEdad() << " " << par2.second->getRaza() << endl;
+    archivo << par3.first << " " << par3.second->getNombre() << " " << par3.second->getEdad() << " " << par3.second->getRaza() << endl;
+    archivo << par4.first << " " << par4.second->getNombre() << " " << par4.second->getEdad() << " " << par4.second->getRaza() << endl;
+    archivo << par5.first << " " << par5.second->getNombre() << " " << par5.second->getEdad() << " " << par5.second->getRaza() << endl;
     archivo.close();
-    // leo el archivo
-    ifstream archivo1("perros.dat", ios::binary);
-    // creo un par para leer el archivo
-    pair<int, perro> *parpivot = new pair<int, perro>(0, *p1);
-    // imprimo el objeto
-    archivo1.read(reinterpret_cast<char *>(parpivot), sizeof(pair<int, perro>));
-    std::cout << parpivot->first << endl;
-    std::cout << parpivot->second.getNombre() << endl;
-    std::cout << parpivot->second.getEdad() << endl;
-    std::cout << parpivot->second.getRaza() << endl;
-    // manipulo otro objeto
-    archivo1.read(reinterpret_cast<char *>(parpivot), sizeof(pair<int, perro>));
-    std::cout << parpivot->first << endl;
-    std::cout << parpivot->second.getNombre() << endl;
-    std::cout << parpivot->second.getEdad() << endl;
-    std::cout << parpivot->second.getRaza() << endl;
-    // salteo un objeto
-    archivo1.seekg(sizeof(pair<int, perro>), ios::cur);
-    // manipulo otro objeto
-    archivo1.read(reinterpret_cast<char *>(parpivot), sizeof(pair<int, perro>));
-    std::cout << parpivot->first << endl;
-    std::cout << parpivot->second.getNombre() << endl;
-    std::cout << parpivot->second.getEdad() << endl;
-    std::cout << parpivot->second.getRaza() << endl;
-    // cierra el archivo
-    archivo1.close();
-
-    std::cout << "----------------------------------------" << endl;
-
-    std::cout << "segunda parte: pair<string, perro>" << endl;
-    // ahora vamos a hacer otra secuencia para hacer pares distintos
-    // creo un archivo
-    ofstream archivo2("perros2.dat", ios::binary);
-    // creo un par con un string y un perro
-    pair<string, perro> par5("1", *p1);
-    pair<string, perro> par6("2", *p2);
-    pair<string, perro> par7("3", *p3);
-    pair<string, perro> par8("4", *p4);
-    // guardo el par en el archivo
-    archivo2.write(reinterpret_cast<const char *>(&par5), sizeof(pair<string, perro>));
-    archivo2.write(reinterpret_cast<const char *>(&par6), sizeof(pair<string, perro>));
-    archivo2.write(reinterpret_cast<const char *>(&par7), sizeof(pair<string, perro>));
-    archivo2.write(reinterpret_cast<const char *>(&par8), sizeof(pair<string, perro>));
-    // cierro el archivo
-    archivo2.close();
-    // leo el archivo
-    ifstream archivo3("perros2.dat", ios::binary);
-    // creo un par para leer el archivo
-    pair<string, perro> *parpivot2 = new pair<string, perro>("0", *p1);
-    // imprimo el objeto
-    archivo3.read(reinterpret_cast<char *>(parpivot2), sizeof(pair<string, perro>));
-    std::cout << parpivot2->first << endl;
-    std::cout << parpivot2->second.getNombre() << endl;
-    std::cout << parpivot2->second.getEdad() << endl;
-    std::cout << parpivot2->second.getRaza() << endl;
-    // manipulo otro objeto
-    archivo3.read(reinterpret_cast<char *>(parpivot2), sizeof(pair<string, perro>));
-    std::cout << parpivot2->first << endl;
-    std::cout << parpivot2->second.getNombre() << endl;
-    std::cout << parpivot2->second.getEdad() << endl;
-    std::cout << parpivot2->second.getRaza() << endl;
-    // salteo un objeto
-    archivo3.seekg(sizeof(pair<string, perro>), ios::cur);
-    // manipulo otro objeto
-    archivo3.read(reinterpret_cast<char *>(parpivot2), sizeof(pair<string, perro>));
-    std::cout << parpivot2->first << endl;
-    std::cout << parpivot2->second.getNombre() << endl;
-    std::cout << parpivot2->second.getEdad() << endl;
-    std::cout << parpivot2->second.getRaza() << endl;
-    // cierra el archivo
-    archivo3.close();
-
-    std::cout << "----------------------------------------" << endl;
-
-    // ahora voy a tomar los pares de los dos archivos y los voy a combinar en un par nuevo en un solo archivo
-    std::cout << "tercera parte: pair<pair<int, perro>, pair<string, perro>>" << endl;
-    // creo un archivo
-    ofstream archivo4("perrosFINAL.dat", ios::binary);
-    // creo un par con dos pares de los archivos anteriores
-    pair<pair<int, perro>, pair<string, perro>> par9(pair<int, perro>(1, *p1), pair<string, perro>("1", *p1));
-    pair<pair<int, perro>, pair<string, perro>> par10(pair<int, perro>(2, *p2), pair<string, perro>("2", *p2));
-    pair<pair<int, perro>, pair<string, perro>> par11(pair<int, perro>(3, *p3), pair<string, perro>("3", *p3));
-    pair<pair<int, perro>, pair<string, perro>> par12(pair<int, perro>(4, *p4), pair<string, perro>("4", *p4));
-    // guardo el par en el archivo
-    archivo4.write(reinterpret_cast<const char *>(&par9), sizeof(pair<pair<int, perro>, pair<string, perro>>));
-    archivo4.write(reinterpret_cast<const char *>(&par10), sizeof(pair<pair<int, perro>, pair<string, perro>>));
-    archivo4.write(reinterpret_cast<const char *>(&par11), sizeof(pair<pair<int, perro>, pair<string, perro>>));
-    archivo4.write(reinterpret_cast<const char *>(&par12), sizeof(pair<pair<int, perro>, pair<string, perro>>));
-    // cierro el archivo
-    archivo4.close();
-    // leo el archivo
-    ifstream archivo5("perrosFINAL.dat", ios::binary);
-    // creo un par para leer el archivo
-    pair<pair<int, perro>, pair<string, perro>> *parpivot3 = new pair<pair<int, perro>, pair<string, perro>>(pair<int, perro>(0, *p1), pair<string, perro>("0", *p1));
-    // imprimo el objeto
-    archivo5.read(reinterpret_cast<char *>(parpivot3), sizeof(pair<pair<int, perro>, pair<string, perro>>));
-    std::cout << parpivot3->first.first << endl;
-    std::cout << parpivot3->first.second.getNombre() << endl;
-    std::cout << parpivot3->first.second.getEdad() << endl;
-    std::cout << parpivot3->first.second.getRaza() << endl;
-    std::cout << parpivot3->second.first << endl;
-    std::cout << parpivot3->second.second.getNombre() << endl;
-    std::cout << parpivot3->second.second.getEdad() << endl;
-    std::cout << parpivot3->second.second.getRaza() << endl;
-    // manipulo otro objeto
-    archivo5.read(reinterpret_cast<char *>(parpivot3), sizeof(pair<pair<int, perro>, pair<string, perro>>));
-    std::cout << parpivot3->first.first << endl;
-    std::cout << parpivot3->first.second.getNombre() << endl;
-    std::cout << parpivot3->first.second.getEdad() << endl;
-    std::cout << parpivot3->first.second.getRaza() << endl;
-    std::cout << parpivot3->second.first << endl;
-    std::cout << parpivot3->second.second.getNombre() << endl;
-    std::cout << parpivot3->second.second.getEdad() << endl;
-    std::cout << parpivot3->second.second.getRaza() << endl;
-    // salteo un objeto
-    archivo5.seekg(sizeof(pair<pair<int, perro>, pair<string, perro>>), ios::cur);
-    // manipulo otro objeto
-    archivo5.read(reinterpret_cast<char *>(parpivot3), sizeof(pair<pair<int, perro>, pair<string, perro>>));
-    std::cout << parpivot3->first.first << endl;
-    std::cout << parpivot3->first.second.getNombre() << endl;
-    std::cout << parpivot3->first.second.getEdad() << endl;
-    std::cout << parpivot3->first.second.getRaza() << endl;
-    std::cout << parpivot3->second.first << endl;
-    std::cout << parpivot3->second.second.getNombre() << endl;
-    std::cout << parpivot3->second.second.getEdad() << endl;
-    std::cout << parpivot3->second.second.getRaza() << endl;
-    // cierro el archivo
-    archivo5.close();
-
-    std::cout << "----------------------------------------" << endl;
-
-    // ahora vamos a trabajar con un map
-    std::cout << "cuarta parte: map<int, perro>" << endl;
-    // creo un map
-    map<int, perro> map1;
-    // inserto los perros en el map
-    map1.insert(pair<int, perro>(1, *p1));
-    map1.insert(pair<int, perro>(2, *p2));
-    map1.insert(pair<int, perro>(3, *p3));
-    map1.insert(pair<int, perro>(4, *p4));
-    // creo un archivo
-    ofstream archivo6("perrosMAP.dat", ios::binary);
-    // guardo el map en el archivo
-    archivo6.write(reinterpret_cast<const char *>(&map1), sizeof(map<int, perro>));
-    // cierro el archivo
-    archivo6.close();
-    // leo el archivo
-    ifstream archivo7("perrosMAP.dat", ios::binary);
-    // creo un map para leer el archivo
-    map<int, perro> *mappivot = new map<int, perro>();
-    // imprimo el objeto
-    archivo7.read(reinterpret_cast<char *>(mappivot), sizeof(map<int, perro>));
-    std::cout << mappivot->begin()->first << endl;
-    std::cout << mappivot->begin()->second.getNombre() << endl;
-    std::cout << mappivot->begin()->second.getEdad() << endl;
-    std::cout << mappivot->begin()->second.getRaza() << endl;
-    // manipulo otro objeto
-    archivo7.read(reinterpret_cast<char *>(mappivot), sizeof(map<int, perro>));
-    std::cout << mappivot->begin()->first << endl;
-    std::cout << mappivot->begin()->second.getNombre() << endl;
-    std::cout << mappivot->begin()->second.getEdad() << endl;
-    std::cout << mappivot->begin()->second.getRaza() << endl;
-    // salteo un objeto
-    archivo7.seekg(sizeof(map<int, perro>), ios::cur);
-    // manipulo otro objeto
-    archivo7.read(reinterpret_cast<char *>(mappivot), sizeof(map<int, perro>));
-    std::cout << mappivot->begin()->first << endl;
-    std::cout << mappivot->begin()->second.getNombre() << endl;
-    std::cout << mappivot->begin()->second.getEdad() << endl;
-    std::cout << mappivot->begin()->second.getRaza() << endl;
-    // cierro el archivo
-    archivo7.close();
-
-    // borro los perros
-    delete p1;
-    delete p2;
-    delete p3;
-    delete p4;
-
-    // borro los archivos
-    remove("perros.dat");
-    remove("perrosFINAL.dat");
-    remove("perrosMAP.dat");
-
-    std::cout << "----------------------------------------" << endl;
-
-    // ahora voy a crear un perro
-    std::cout << "quinta parte: perro" << endl;
-    // creo un perro
-    perro *p5 = new perro("perro5", 5, "raza5");
-    // lo agrego a un par con un string
-    pair<string, perro> *parpivot4 = new pair<string, perro>("dani", *p5);
-    // creo un archivo
-    ofstream archivo8("perro.dat", ios::binary);
-    // guardo el par en el archivo
-    archivo8.write(reinterpret_cast<const char *>(parpivot4), sizeof(pair<string, perro>));
-    // cierro el archivo
-    archivo8.close();
-    // creo otro par con otro perro
-    perro *p6 = new perro("perro6", 6, "raza6");
-    pair<string, perro> *parpivot5 = new pair<string, perro>("elias", *p6);
-    // lo agrego al archivo
-    ofstream archivo9("perro.dat", ios::binary | ios::app);
-    archivo9.write(reinterpret_cast<const char *>(parpivot5), sizeof(pair<string, perro>));
-    // cierro el archivo
-    archivo9.close();
-    // quiero modificar el primer perro en el archivo
-    // primero creo un archivo de respaldo al que voy a modificar
-    ifstream archivo10("perro.dat", ios::binary);
-    ofstream archivo11("perroFINAL.dat", ios::binary);
-    // creo un string para leer el archivo
+    // creo un archivo txt de respaldo copiando el original
+    ifstream archivo2("perros.txt");
+    ofstream archivo3("perrosCOPY.txt");
     string linea;
-    if(archivo10 && archivo11)
+    while (getline(archivo2, linea))
     {
-        while (getline(archivo10, linea))
+        archivo3 << linea << endl;
+    }
+    archivo2.close();
+    archivo3.close();
+    // modifico ahora al perro p1
+    p1->setNombre("firulais2");
+    p1->setEdad(6);
+    p1->setRaza("labrador2");
+    // imprimo los datos del perro p1
+    p1->mostrar();
+    // ahora reescribo el archivo original con los datos modificados
+    ifstream archivo4("perrosCOPY.txt");
+    ofstream archivo5("perros.txt");
+    while (getline(archivo4, linea))
+    {
+        if (linea.find(par1.first) != string::npos)
         {
-            archivo11 << linea << endl;
+            archivo5 << par1.first << " " << p1->getNombre() << " " << p1->getEdad() << " " << p1->getRaza() << endl;
         }
-        std::cout << "archivo de respaldo creado" << endl;
+        else
+        {
+            archivo5 << linea << endl;
+        }
     }
-    else
-    {
-        std::cout << "no se pudo crear el archivo de respaldo" << endl;
-    }
-    // cierro los archivos
-    archivo10.close();
-    archivo11.close();
-
-    // ahora voy a modificar el objeto del primer perro
-    // creo un perro nuevo
-    perro *p7 = new perro("perro7", 7, "raza7");
-    // creo un par nuevo
-    pair<string, perro> *parpivot6 = new pair<string, perro>("dani", *p7);
-    // voy a reescribir el archivo original usando el de respaldo sacando a dani
-    ifstream archivo12("perroFINAL.dat", ios::binary);
-    ofstream archivo13("perro.dat", ios::binary);
-    // creo un par para leer el archivo
-    pair<string, perro> *parpivot7 = new pair<string, perro>();
-    // leo el archivo
-    archivo12.read(reinterpret_cast<char *>(parpivot7), sizeof(pair<string, perro>));
-    // si el nombre del perro es dani, lo salteo
-    if (parpivot7->first == "dani")
-    {
-        archivo12.seekg(sizeof(pair<string, perro>), ios::cur);
-    }
-    // guardo el par en el archivo
-    archivo13.write(reinterpret_cast<const char *>(parpivot7), sizeof(pair<string, perro>));
-    // cierro el archivo
-    archivo12.close();
-    archivo13.close();
-    // ahora voy a agregar el nuevo perro
-    // abro el archivo
-    ofstream archivo14("perro.dat", ios::binary | ios::app);
-    // guardo el par en el archivo
-    archivo14.write(reinterpret_cast<const char *>(parpivot6), sizeof(pair<string, perro>));
-    // cierro el archivo
-    archivo14.close();
 
     return 0;
 }
