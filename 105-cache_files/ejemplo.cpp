@@ -136,6 +136,74 @@ int main()
     // imprimo los datos del perro p3
     p3->mostrar();
 
+    // voy a imprimir el tamaño de cada objeto perro
+    cout << "Tamaño de p1: " << sizeof(*p1) << endl;
+    cout << "Tamaño de p2: " << sizeof(*p2) << endl;
+    cout << "Tamaño de p3: " << sizeof(*p3) << endl;
+    cout << "Tamaño de p4: " << sizeof(*p4) << endl;
+    cout << "Tamaño de p5: " << sizeof(*p5) << endl;
+    // voy a imprimir el tamaño de cada par
+    cout << "Tamaño de par1: " << sizeof(par1) << endl;
+    cout << "Tamaño de par2: " << sizeof(par2) << endl;
+    cout << "Tamaño de par3: " << sizeof(par3) << endl;
+    cout << "Tamaño de par4: " << sizeof(par4) << endl;
+    cout << "Tamaño de par5: " << sizeof(par5) << endl;
+
+    // voy a guardar los pares en un archivo binario .dat
+    ofstream archivo7("perros.dat", ios::binary);
+    archivo7.write((char *)&par1, sizeof(par1));
+    archivo7.write((char *)&par2, sizeof(par2));
+    archivo7.write((char *)&par3, sizeof(par3));
+    archivo7.write((char *)&par4, sizeof(par4));
+    archivo7.write((char *)&par5, sizeof(par5));
+    archivo7.close();
+
+    // voy a leer los pares del archivo binario .dat hasta el fin del archivo
+    ifstream archivo8("perros.dat", ios::binary);
+    pair<string, perro *> par;
+    while (archivo8.read((char *)&par, sizeof(par)))
+    {
+        cout << par.first << " " << par.second->getNombre() << " " << par.second->getEdad() << " " << par.second->getRaza() << endl;
+    }
+    archivo8.close();
+
+    // voy a crear una copia del archivo binario .dat
+    ifstream archivo9("perros.dat", ios::binary);
+    ofstream archivo10("perrosCOPY.dat", ios::binary);
+    while (archivo9.read((char *)&par, sizeof(par)))
+    {
+        archivo10.write((char *)&par, sizeof(par));
+    }
+    archivo9.close();
+    archivo10.close();
+
+    // ahora voy a modificar el perro p3
+    p3->setNombre("firulais3");
+    p3->setEdad(7);
+    p3->setRaza("labrador3");
+    // ahora voy a reescribir el archivo binario .dat sin el perro p3 usando el archivo de respaldo
+    ifstream archivo11("perrosCOPY.dat", ios::binary);
+    ofstream archivo12("perros.dat", ios::binary);
+    while (archivo11.read((char *)&par, sizeof(par)))
+    {
+        if (par.first != par3.first)
+        {
+            archivo12.write((char *)&par, sizeof(par));
+        }
+    }
+    // y ahora voy a agregar el perro p3 modificado al final del archivo binario .dat
+    archivo12.write((char *)&par3, sizeof(par3));
+    archivo11.close();
+    archivo12.close();
+
+    // voy a leer los pares del archivo binario .dat y voy a imprimir todos para ver si se modifico el perro p3
+    ifstream archivo13("perros.dat", ios::binary);
+    while (archivo13.read((char *)&par, sizeof(par)))
+    {
+        cout << par.first << " " << par.second->getNombre() << " " << par.second->getEdad() << " " << par.second->getRaza() << endl;
+    }
+    archivo13.close();
+
     return 0;
 }
 
