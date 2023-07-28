@@ -28,7 +28,7 @@ int main()
     my_cache.insert(" 20 ", Student(22, 25, " mateo "));
     my_cache.insert(" 30 ", Student(33, 29, " ciro "));
     my_cache.insert(" 40 ", Student(44, 29, " antonella "));
-    my_cache.insert(" 20 ", Student(55, 66, " jorge "));
+    //my_cache.insert(" 20 ", Student(55, 66,  " jorge "));
 
     //my_cache.getFromMem(" 50 ");
 

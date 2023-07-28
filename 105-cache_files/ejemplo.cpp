@@ -240,6 +240,8 @@ int main()
     archivo17.write((char *)&par2, sizeof(par2));
     archivo17.close();
 
+    // ultima prueba
+    // 
 
     return 0;
 }
