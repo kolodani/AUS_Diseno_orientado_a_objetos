@@ -25,17 +25,14 @@ class CacheManager
     map<string, pair<T, int>> cacheData; // < Clave , < Obj , Indice de Uso >>
 
 public:
-    CacheManager(size_t cap): capacity(cap),MRU(0)
-    {
-        ofstream clearCache(ARCHIVO,ios::trunc);
-        clearCache.close();
-    }; 
+    CacheManager(size_t cap): capacity(cap),MRU(0){}; 
     ~CacheManager();
 
     void insert(string key,const T& obj);
     T get(string key);
     T getF(string key);
     void showCache();
+    void showArchivo();
     void invalidate(string key);
     bool insertF(string key,const T& objeto);
 };
@@ -79,9 +76,11 @@ bool CacheManager<T>::insertF(string key, const T& obj)
     Block<T> bloque;
     bloque.key = key;
     bloque.data = obj; // copio en la estructura el objeto, no por referencia
-    ofstream w(ARCHIVO, ios::binary | ios::app);
+    ofstream w(ARCHIVO, ios::app | ios::binary);
     if(!w) return false;
+    showArchivo();
     invalidate(key);
+    showArchivo();
     w.write(reinterpret_cast<char*>(&bloque), sizeof (Block<T>));
     w.close();
     return true;
@@ -117,11 +116,18 @@ T CacheManager <T>:: getF(string key)
     /* read ya tira error state flags en lectura despues del EOF,
      * lo puedo usar como condicion 
      * */
+    bool infile = false;
     while(w.read(reinterpret_cast<char *>(&b), sizeof(Block<T>))){
-        if(b.key == key && b.valid)
+        if(b.key == key && b.valid){
+            infile = true;
             break;
+        }
         // si un bloque del archivo coincide con la key, paro el loop 
     }
+
+    if(!infile)
+        cout << "no esta ni en la cache, ni en el archivo" << endl;
+
     w.close();
     return b.data;
 }
@@ -160,4 +166,15 @@ void CacheManager <T>:: showCache()
 {
     for(auto it = cacheData.begin(); it != cacheData.end(); it++)
         cout << it->first << " - " << it->second.first << endl;
+}
+
+template < class T >
+void CacheManager <T>:: showArchivo()
+{
+    ifstream r(ARCHIVO,ios::binary | ios::in);
+    Block<T> aux;
+    while (r.read(reinterpret_cast<char*>(&aux), sizeof(Block<T>))) {
+        cout << aux.data << endl;
+    }
+    r.close();
 }
