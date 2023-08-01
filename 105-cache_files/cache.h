@@ -60,51 +60,8 @@ bool CacheManager<T>::writeFile(const string &key, const T &obj)
     pair<string, T> block(key, obj);
     // bloque para realizar operaciones
     pair<string, T> bPivot;
-    // primero leo el archivo para ver si ya existe la clave
-    int numeroRenglo = 0;
-    // abro el archivo para lectura, si no existe lo crea, si existe lo leo
-    ifstream r(ARCHIVO, ios::in | ios::binary);
-    if (!r.is_open())
-    {
-        // si no existe el archivo, lo creo
-        ofstream w(ARCHIVO, ios::out | ios::binary);
-        w.close();
-        r.open(ARCHIVO, ios::in | ios::binary);
-    }
-    // read ya marca una lectura despues del EOF
-    r.read(reinterpret_cast<char *>(&bPivot), blockSize);
-    while (r.read(reinterpret_cast<char *>(&bPivot), blockSize))
-    {
-        if(bPivot.first == key)
-        {
-            break;
-        }
-        numeroRenglo++;
-    }
-    r.close();
-    // si la clave ya existe, la sobreescribo
-    if (bPivot.first == key)
-    {
-        // abro el archivo para escritura
-        fstream w(ARCHIVO, ios::in | ios::out | ios::binary);
-        // me posiciono en el renglon a sobreescribir
-        w.seekp(numeroRenglo * blockSize);
-        // escribo en el archivo
-        w.write(reinterpret_cast<char *>(&block), blockSize);
-        // cierro el archivo
-        w.close();
-        return true;
-    }
-    else
-    {
-        // agregar al final del archivo
-        ofstream w(ARCHIVO, ios::app | ios::binary);
-        w.write(reinterpret_cast<char *>(&block), blockSize);
-        // escribo en el archivo un salto de linea
-        w << endl;
-        w.close();
-        return true;
-    }
+    
+    return true;
 }
 
 template <class T>
