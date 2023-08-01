@@ -33,7 +33,9 @@ int main()
     my_cache.insert(" 1 ", Student (1,23,"student2"));
     my_cache.insert(" 2 ", Student (2,25,"student3"));
     my_cache.insert(" 3 ", Student (3,29,"student4"));
+    my_cache.insert(" 4 ", Student (123,29,"student5"));
 
+    cout << my_cache.get(" 1 ") << endl;
     my_cache.showCache();
 
     cout << " ----------------------UPDATE-----------------------" << endl;
