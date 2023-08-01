@@ -11,44 +11,49 @@ public:
     Student():id(0),value(0),data(""){} // const default
     Student(int _key, int _value, string _data) : id(_key), value(_value), data(_data) {}
 
+    friend ostream& operator<<(ostream& os, const Student& stud);
     string getNombre(){return data;}
-    void print(){
-        cout << " Student Object: " << id << ", " << value << ", " << data << endl ;
-    };
     ~Student(){};
 };
 
 const string Student:: class_name = "StudentClass";
 
+// se debe sobrecargar el operador de flujo!
+ostream& operator<<(ostream& os, const Student& stud)
+{
+   cout <<"Student Object: "<< stud.id <<", "<< stud.value << ", "<< stud.data <<endl; 
+   return os;
+}
+
 int main()
 {
     CacheManager<Student> my_cache(3);
     Student p;
-    //my_cache.insert(" 10 ", Student(1, 23, " ricardo10 "));
-    //my_cache.insert(" 20 ", Student(2, 25, " student20 "));
-    //my_cache.insert(" 30 ", Student(3, 29, " student30 "));
-    //my_cache.insert(" 40 ", Student(3, 29, " student40 "));
+    my_cache.insert(" 0 ", Student (0,22,"student1"));
+    my_cache.insert(" 1 ", Student (1,23,"student2"));
+    my_cache.insert(" 2 ", Student (2,25,"student3"));
+    my_cache.insert(" 3 ", Student (3,29,"student4"));
 
-    //my_cache.writeFile(" 1200 ", Student(3, 29, " student50 "));
-     my_cache.getFromMem(" 50 ");
+    my_cache.showCache();
 
-    //cout << " - - - - - - - - - - - - - - - - - - - - - -  UPDATE - - - - - - - - - - - - - - - - - - - - - - -" << endl ;
+    cout << " ----------------------UPDATE-----------------------" << endl;
 
-    //my_cache.insert(" 2 ", Student(22, 222, " EZE "));
-    ////my_cache.show_cache();
+    my_cache.insert(" 2 ", Student(22, 222, " EZE "));
+    my_cache.showCache();
 
-    //cout << " <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< " << endl ;
+    cout << " <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< " << endl ;
 
-    //Student return_obj = my_cache.get(" 0 "); // not in cache but in filesystem
+    Student return_obj = my_cache.get(" 0 "); // not in cache but in filesystem
+    cout << return_obj << endl;
 
-    //cout << " <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< " << endl;
+    cout << " <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< " << endl;
 
-    //my_cache.insert(" 2 ", Student(2, 25, " EZE "));
-    ////my_cache.show_cache();
-    //my_cache.insert(" 9 ", Student(1, 5, " Nine "));
-    //my_cache.insert(" 9 ", Student(1, 5, " Nine "));
-    //my_cache.insert(" 9 ", Student(1, 5, " Nine "));
-    //my_cache.show_cache();
+    my_cache.insert(" 2 ", Student(2, 25, " EZE "));
+    my_cache.showCache();
+    my_cache.insert(" 9 ", Student(1, 5, " Nine "));
+    my_cache.insert(" 9 ", Student(1, 5, " Nine "));
+    my_cache.insert(" 9 ", Student(1, 5, " Nine "));
+    my_cache.showCache();
 
     return 0;
 }
