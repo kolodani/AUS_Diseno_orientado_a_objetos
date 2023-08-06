@@ -26,7 +26,7 @@ const string Student:: class_name = "StudentClass";
 
 ostream& operator<<(ostream& os, Student stud)
 {
-    cout <<"Student Object: "<< stud.id <<", "<< stud.value << ", "<< stud.getNombre() <<endl;
+    cout <<"Student Object: "<< stud.id <<", "<< stud.value << ", "<< stud.getNombre() <<endl; 
     return os;
 }
 
