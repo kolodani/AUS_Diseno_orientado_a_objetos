@@ -22,3 +22,13 @@ void f(char* p, vector<char> v)
     string s9(p, 7, 3);     // String(string(p), 7, 3) no es recomendable
     string s10(v.begin(), v.end()); // copiat todos los caracteres de v
 };
+
+int main()
+{
+    char* p = "DanielAlbertoVinzia";
+    vector<char> v = {'a', 'b', 'c', 'd', 'e', 'f', 'g'};
+
+    f(p, v);
+
+    return 0;
+};

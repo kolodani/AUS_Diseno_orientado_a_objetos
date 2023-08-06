@@ -83,6 +83,7 @@ void CacheManager<T>::insert(string key, const T &obj)
         insertF(aux->first, aux->second.first);
         cacheData.erase(aux);
     }
+    writeFile(key, obj);
 }
 
 template <class T>
