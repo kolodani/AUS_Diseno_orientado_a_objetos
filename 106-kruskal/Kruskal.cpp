@@ -75,20 +75,20 @@ ostream &operator<<(ostream &os, Grafo &grafito)
         cout << vert << ", ";
     }
     cout << endl
-         << "Aristas: \n";
+        << "Aristas: \n";
 
     for (auto arista : grafito.E)
     {
 
         cout << "(" << arista.first.first << "," << arista.first.second << "), "
-             << arista.second << endl;
+            << arista.second << endl;
     }
 
     cout << "Arbol minimo : " << endl;
     for (auto arista : grafito.arbol_minimo)
     {
         cout << "(" << arista.first.first << "," << arista.first.second << "), "
-             << arista.second << "\t";
+            << arista.second << "\t";
     }
 
     return os;
